@@ -8,6 +8,7 @@ import Filter from "./components/filter";
 import NoResults from "@/components/ui/no-results";
 import ProductCard from "@/components/ui/product-card";
 import MobileFilters from "./components/mobile-filters";
+import { Suspense } from "react";
 
 export const revalidate = 0;
 
@@ -43,16 +44,18 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({
           <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
             <MobileFilters sizes={sizes} colors={colors} />
             <div className="hidden lg:block">
-              <Filter
-                valueKey="sizeId"
-                name="Sizes"
-                data={sizes}
-              />
-              <Filter
-                valueKey="colorId"
-                name="Colors"
-                data={colors}
-              />
+              <Suspense fallback={<>Loading...</>}>
+                <Filter
+                  valueKey="sizeId"
+                  name="Sizes"
+                  data={sizes}
+                />
+                <Filter
+                  valueKey="colorId"
+                  name="Colors"
+                  data={colors}
+                />
+              </Suspense>
             </div>
             <div className="mt-6 lg:col-span-4 lg:mt-0">
               {products.length === 0 && <NoResults />}
